@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: main
   pull_request:
-    branches: [ $default-branch ]
+    types: [labeled, reopened, synchronize, ready_for_review]
 
 jobs:
   build:
