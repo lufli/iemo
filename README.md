@@ -1,5 +1,5 @@
 ![build](https://github.com/lufli/next-tool/actions/workflows/build.yml/badge.svg)
-![test](https://github.com/lufli/next-tool/actions/workflows/test.yml/badge.svg)
+[![codecov](https://codecov.io/gh/lufli/next-tool/branch/main/graph/badge.svg?token=UW1CCE18KD)](https://codecov.io/gh/lufli/next-tool)
 ![lint](https://github.com/lufli/next-tool/actions/workflows/lint.yml/badge.svg)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
