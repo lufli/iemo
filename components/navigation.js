@@ -1,21 +1,21 @@
 import React from 'react';
-import Link from 'next/link'
-import { List } from 'antd'
+import Link from 'next/link';
+import { List } from 'antd';
 
 const myApps = [
   {
-    'title': 'One Submit! No Regret!',
-    'description': 'Having trouble making decisions? Don\'t worry! We will help you!',
-    'link': '/decision-maker'
+    title: 'One Submit! No Regret!',
+    description: 'Having trouble making decisions? Don\'t worry! We will help you!',
+    link: '/decision-maker',
   },
   {
-    'title': 'Become A Billionaire',
-    'description': 'Are you a billionaire?',
-    'link': '/billionaire'
-  }
-]
+    title: 'Become A Billionaire',
+    description: 'Are you a billionaire?',
+    link: '/billionaire',
+  },
+];
 
-export default function Navigation () {
+export default function Navigation() {
   return (
     <List
       header={<h2>A Collection of Coolest Tools</h2>}
@@ -29,5 +29,5 @@ export default function Navigation () {
         </List.Item>
       )}
     />
-  )
+  );
 }

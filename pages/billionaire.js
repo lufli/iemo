@@ -1,5 +1,5 @@
-import Head from 'next/head'
-import React from 'react'
+import Head from 'next/head';
+import React from 'react';
 
 export default function Billionaire() {
   return (
@@ -12,5 +12,5 @@ export default function Billionaire() {
       </Head>
       <h1>Billionaire</h1>
     </>
-  )
+  );
 }
