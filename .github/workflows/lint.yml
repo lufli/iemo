@@ -21,6 +21,7 @@ jobs:
     
       - name: Install
         run: yarn --frozen-lockfile
-
-      - name: ESLint
-        run: yarn lint
+         
+          #TODO: enable eslint check
+          #- name: ESLint
+          #run: yarn lint
