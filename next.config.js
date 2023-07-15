@@ -4,9 +4,8 @@ const nextConfig = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
-    // TODO: enable lint
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

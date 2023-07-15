@@ -8,7 +8,7 @@
     "start": "next start",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "lint": "next lint"
+    "lint": "next lint && eslint ."
   },
   "dependencies": {
     "antd": "^5.7.0",

@@ -11,5 +11,19 @@
     },
     "plugins": ["jest"],
     "rules": {
+        // alow jsx code in .js file
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "react/jsx-props-no-spreading": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx"]
+            }
+        }
     }
 }
