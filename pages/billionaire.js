@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import React from 'react'
+import { getWinningMegaNumber } from "@/lib/lottery/megamillion"
 
-export default function Billionaire() {
+export default function Billionaire({ megaResult }) {
+  const megaDrawing = megaResult.drawing;
   return (
     <>
       <Head>
@@ -11,6 +13,19 @@ export default function Billionaire() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Billionaire</h1>
+      <div>Megamillion Result is { megaDrawing.N1 } { megaDrawing.N2 } { megaDrawing.N3 } { megaDrawing.N4 } { megaDrawing.N5 } { megaDrawing.MBall } </div>
     </>
   )
+}
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const megaResult =  await getWinningMegaNumber();
+
+  return {
+    props: {
+      megaResult
+    },
+  }
 }
