@@ -3,7 +3,9 @@ import React from 'react'
 import { getWinningMegaNumber } from "@/lib/lottery/megamillion"
 
 export default function Billionaire({ megaResult }) {
-  const megaDrawing = megaResult.drawing;
+
+  const { whiteBalls, specialBall, jackpot } = megaResult;
+
   return (
     <>
       <Head>
@@ -13,7 +15,16 @@ export default function Billionaire({ megaResult }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Billionaire</h1>
-      <div>Megamillion Result is { megaDrawing.N1 } { megaDrawing.N2 } { megaDrawing.N3 } { megaDrawing.N4 } { megaDrawing.N5 } { megaDrawing.MBall } </div>
+      <div>
+        Megamillion Result is
+        { whiteBalls.map(whiteball => (<span key={whiteball}> {whiteball} </span>)) }
+        <span>{ specialBall }</span>
+      </div>
+      <div>
+        Megamillion Jackpot is {Number(jackpot.CurrentPrizePool).toLocaleString()}
+        <br />
+        Cash Value is {Number(jackpot.CurrentCashValue).toLocaleString()}
+      </div>
     </>
   )
 }
