@@ -26,7 +26,7 @@ export default function Billionaire({ megaResult }) {
         Cash Value is {Number(jackpot.CurrentCashValue).toLocaleString()}
       </div>
     </>
-  )
+  );
 }
 
 export async function getStaticProps() {

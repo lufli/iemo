@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import '@/matchMedia.mock'
-import Billionaire from '@/pages/billionaire'
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import '@/matchMedia.mock';
+import Billionaire from '@/pages/billionaire';
 
 describe('Billionaire', () => {
   it('render the Billionaire', () => {
