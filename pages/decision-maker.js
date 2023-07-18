@@ -1,7 +1,114 @@
-import Head from 'next/head';
+/* eslint-disable react/no-array-index-key,  import/no-extraneous-dependencies */
 import React from 'react';
+import Head from 'next/head';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Table,
+} from 'antd';
 
 export default function DecisionMaker() {
+  const [names, setNames] = React.useState(['', '', '']);
+  const [options, setOptions] = React.useState(['', '', '']);
+  const [isFormDisabled, setIsFormDisabled] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [result, setResult] = React.useState([]);
+
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Decision',
+      dataIndex: 'decision',
+      key: 'decision',
+    },
+  ];
+
+  const onNameChange = (e, index) => {
+    setNames((items) => items.map((item, i) => (
+      i === index ? e.target.value : item
+    )));
+  };
+
+  const onAddName = () => {
+    setNames((items) => [...items, '']);
+  };
+
+  const onDeleteName = (e, index) => {
+    setNames((items) => items.reduce((acc, cur, i) => (
+      i === index ? acc : [...acc, cur]
+    ), []));
+  };
+
+  const onOptionChange = (e, index) => {
+    setOptions((items) => items.map((item, i) => (
+      i === index ? e.target.value : item
+    )));
+  };
+
+  const onAddOption = () => {
+    setOptions((items) => [...items, '']);
+  };
+
+  const onModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const randomNumber = (min, max) => (
+    Math.floor(Math.random() * (max - min) + min)
+  );
+
+  const shuffle = (array) => {
+    const arrayCopy = [...array];
+    let currentIndex = arrayCopy.length;
+    let randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      [arrayCopy[currentIndex], arrayCopy[randomIndex]] = [
+        arrayCopy[randomIndex], arrayCopy[currentIndex]];
+    }
+    return arrayCopy;
+  };
+
+  const onSubmit = () => {
+    if (result.length > 0) {
+      setIsModalOpen(true);
+      return;
+    }
+    let newResult = [];
+    const rest = [...options];
+    shuffle(names).forEach((name) => {
+      const len = rest.length;
+      if (len === 0) {
+        newResult = [...newResult, { key: new Date() + name + len, name, desision: '' }];
+        return;
+      }
+      const num = randomNumber(0, len);
+      newResult = [...newResult, { name, decision: rest[num] }];
+      rest.splice(num, 1);
+    });
+    setResult(newResult);
+    setIsFormDisabled(true);
+    setIsModalOpen(true);
+  };
+
+  const onClear = () => {
+    setNames(['', '', '']);
+    setOptions(['', '', '']);
+    setIsFormDisabled(false);
+    setResult([]);
+  };
+
   return (
     <>
       <Head>
@@ -10,7 +117,58 @@ export default function DecisionMaker() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Decision Maker</h1>
+      <Divider orientation="left">Decision Maker</Divider>
+      <Modal title="Decision for You!" open={isModalOpen} onOk={onModalClose} onCancel={onModalClose}>
+        <Table columns={columns} dataSource={result} bordered />
+      </Modal>
+      <Row gutter={12}>
+        <Col span={10}>
+          <Form disabled={isFormDisabled} style={{ padding: 24 }}>
+            {
+              names.map((name, index) => (
+                <Form.Item key={index}>
+                  <Input style={{ width: '60%' }} value={name} onChange={(e) => onNameChange(e, index)} placeholder="Please input the thing..." />
+                  {
+                    isFormDisabled
+                      ? <MinusCircleOutlined className="dynamic-delete-button" />
+                      : <MinusCircleOutlined className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
+                  }
+                </Form.Item>
+              ))
+            }
+            <Form.Item>
+              <Button type="dashed" onClick={onAddName} icon={<PlusOutlined />}>Add more</Button>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={10}>
+          <Form disabled={isFormDisabled} style={{ padding: 24 }}>
+            {
+              options.map((option, index) => (
+                <Form.Item key={index}>
+                  <Input style={{ width: '60%' }} value={option} onChange={(e) => onOptionChange(e, index)} placeholder="Please input an option" />
+                  {
+                    isFormDisabled
+                      ? <MinusCircleOutlined className="dynamic-delete-button" />
+                      : <MinusCircleOutlined className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
+                  }
+                </Form.Item>
+              ))
+            }
+            <Form.Item>
+              <Button type="dashed" onClick={onAddOption} icon={<PlusOutlined />}>Add more</Button>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={4}>
+          <Button type="primary" block onClick={onSubmit}>Submit</Button>
+          <br />
+          <Button danger block onClick={onClear}>Clear</Button>
+          <p>1. Type the thing</p>
+          <p>2. Type the options</p>
+          <p>3. Submit</p>
+        </Col>
+      </Row>
     </>
   );
 }
