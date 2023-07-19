@@ -1,10 +1,35 @@
 import Head from 'next/head'
+import axios from 'axios'
 import React from 'react'
-import { getWinningMegaNumber } from "@/lib/lottery/megamillion"
+import useSwr from 'swr'
+import styles from '@/styles/billionaire.module.css'
 
-export default function Billionaire({ megaResult }) {
+function ResultRender(winningNumber = {}) {
+  const { N1, N2, N3, N4, N5, NS, type, fetchFail } = winningNumber;
 
-  const { whiteBalls, specialBall, jackpot } = megaResult;
+  if (!fetchFail) {
+    return (
+      <div>
+        { type } result is
+        <div className={styles['result-container']}>
+          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N1 }</span>
+          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N2 }</span>
+          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N3 }</span>
+          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N4 }</span>
+          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N5 }</span>
+          <span className={`${styles['regular-balls']} ${styles['special-ball']}`}>{ NS }</span>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default function Billionaire() {
+  const { data, mutate } = useSwr('/api/get-lottery-results', axios.get, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
 
   return (
     <>
@@ -15,28 +40,10 @@ export default function Billionaire({ megaResult }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Billionaire</h1>
-      <div>
-        Megamillion Result is
-        { whiteBalls.map(whiteball => (<span key={whiteball}> {whiteball} </span>)) }
-        <span>{ specialBall }</span>
-      </div>
-      <div>
-        Megamillion Jackpot is {Number(jackpot.CurrentPrizePool).toLocaleString()}
-        <br />
-        Cash Value is {Number(jackpot.CurrentCashValue).toLocaleString()}
-      </div>
+      <button onClick={mutate}>re-run</button>
+      { data?.data && data.data.map(result => (
+        <ResultRender {...result} key={result.type}/>
+      )) }
     </>
   );
-}
-
-export async function getStaticProps() {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  const megaResult =  await getWinningMegaNumber();
-
-  return {
-    props: {
-      megaResult
-    },
-  }
 }
