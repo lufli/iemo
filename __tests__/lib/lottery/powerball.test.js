@@ -41,7 +41,7 @@ describe('lib/lottery/powerball', () => {
       N4: 66,
       N5: 67,
       NS: 20,
-      date: new Date(),
+      date: Date.now(),
       multiplier: 3,
       type: 'powerball',
     };

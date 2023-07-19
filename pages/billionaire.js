@@ -1,16 +1,20 @@
-import Head from 'next/head'
-import axios from 'axios'
-import React from 'react'
-import useSwr from 'swr'
-import styles from '@/styles/billionaire.module.css'
+import Head from 'next/head';
+import axios from 'axios';
+import React from 'react';
+import useSwr from 'swr';
+import styles from '@/styles/billionaire.module.css';
 
 function ResultRender(winningNumber = {}) {
-  const { N1, N2, N3, N4, N5, NS, type, fetchFail } = winningNumber;
+  const {
+    N1, N2, N3, N4, N5, NS, type, fetchFail,
+  } = winningNumber;
 
   if (!fetchFail) {
     return (
       <div>
-        { type } result is
+        { type }
+        {' '}
+        result is
         <div className={styles['result-container']}>
           <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N1 }</span>
           <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N2 }</span>
@@ -20,7 +24,7 @@ function ResultRender(winningNumber = {}) {
           <span className={`${styles['regular-balls']} ${styles['special-ball']}`}>{ NS }</span>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -28,7 +32,7 @@ export default function Billionaire() {
   const { data, mutate } = useSwr('/api/get-lottery-results', axios.get, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
-    revalidateOnReconnect: false
+    revalidateOnReconnect: false,
   });
 
   return (
@@ -40,9 +44,9 @@ export default function Billionaire() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Billionaire</h1>
-      <button onClick={mutate}>re-run</button>
-      { data?.data && data.data.map(result => (
-        <ResultRender {...result} key={result.type}/>
+      <button onClick={mutate} type="button">re-run</button>
+      { data?.data && data.data.map((result) => (
+        <ResultRender {...result} key={result.type} />
       )) }
     </>
   );
