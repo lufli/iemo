@@ -2,31 +2,7 @@ import Head from 'next/head';
 import axios from 'axios';
 import React from 'react';
 import useSwr from 'swr';
-import styles from '@/styles/billionaire.module.css';
-
-function ResultRender(winningNumber = {}) {
-  const {
-    N1, N2, N3, N4, N5, NS, type, fetchFail,
-  } = winningNumber;
-
-  if (!fetchFail) {
-    return (
-      <div>
-        { type }
-        {' '}
-        result is
-        <div className={styles['result-container']}>
-          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N1 }</span>
-          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N2 }</span>
-          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N3 }</span>
-          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N4 }</span>
-          <span className={`${styles['regular-balls']} ${styles['white-balls']}`}>{ N5 }</span>
-          <span className={`${styles['regular-balls']} ${styles['special-ball']}`}>{ NS }</span>
-        </div>
-      </div>
-    );
-  }
-}
+import ResultRender from '@/components/billionaire/ResultRender';
 
 export default function Billionaire() {
   const { data, mutate } = useSwr('/api/get-lottery-results', axios.get, {
