@@ -127,7 +127,8 @@ export default function DecisionMaker() {
             {
               names.map((name, index) => (
                 <Form.Item key={index}>
-                  <Input style={{ width: '60%' }} value={name} onChange={(e) => onNameChange(e, index)} placeholder="Please input the thing..." />
+                  <Input className="name-input" data-testid={'name-input-' + Math.random() } style={{ width: '60%' }} value={name} onChange={(e) => onNameChange(e, index)} placeholder="Please input the thing..." />
+
                   {
                     isFormDisabled
                       ? <MinusCircleOutlined className="dynamic-delete-button" />
@@ -146,17 +147,17 @@ export default function DecisionMaker() {
             {
               options.map((option, index) => (
                 <Form.Item key={index}>
-                  <Input style={{ width: '60%' }} value={option} onChange={(e) => onOptionChange(e, index)} placeholder="Please input an option" />
+                  <Input className="option-input" data-testid={'option-input-' + Math.random() } style={{ width: '60%' }} value={option} onChange={(e) => onOptionChange(e, index)} placeholder="Please input an option" />
                   {
                     isFormDisabled
-                      ? <MinusCircleOutlined className="dynamic-delete-button" />
-                      : <MinusCircleOutlined className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
+                      ? <MinusCircleOutlined data-testid="delete-name-icon" className="dynamic-delete-button" />
+                      : <MinusCircleOutlined data-testid="delete-name-icon" className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
                   }
                 </Form.Item>
               ))
             }
             <Form.Item>
-              <Button type="dashed" onClick={onAddOption} icon={<PlusOutlined />}>Add more</Button>
+              <Button data-testid="add-name-button" type="dashed" onClick={onAddOption} icon={<PlusOutlined />}>Add more</Button>
             </Form.Item>
           </Form>
         </Col>
