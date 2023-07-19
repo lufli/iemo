@@ -8,7 +8,8 @@
     "start": "next start",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "lint": "next lint && eslint ."
+    "lint": "next lint && eslint .",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "antd": "^5.7.0",
@@ -16,7 +17,8 @@
     "dom-parser": "^0.1.6",
     "next": "13.4.9",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "swr": "^2.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

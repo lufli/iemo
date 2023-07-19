@@ -41,7 +41,7 @@ describe('lib/lottery/powerball', () => {
       N4: 66,
       N5: 67,
       NS: 20,
-      date: new Date(),
+      date: Date.now(),
       multiplier: 3,
       type: 'powerball',
     };
@@ -70,7 +70,7 @@ describe('lib/lottery/powerball', () => {
       N4: 66,
       N5: 67,
       NS: 20,
-      date: new Date(),
+      date: Date.now(),
       multiplier: 3,
       type: 'powerball',
     };
@@ -85,7 +85,7 @@ describe('lib/lottery/powerball', () => {
     };
     const expectedCheckOne = {
       type: 'powerball',
-      date: new Date(),
+      date: Date.now(),
       N1: { number: 23, hit: true },
       N2: { number: 35, hit: true },
       N3: { number: 45, hit: true },
@@ -108,7 +108,7 @@ describe('lib/lottery/powerball', () => {
     };
     const expectedCheckTwo = {
       type: 'powerball',
-      date: new Date(),
+      date: Date.now(),
       N1: { number: 18, hit: false },
       N2: { number: 25, hit: false },
       N3: { number: 47, hit: false },
