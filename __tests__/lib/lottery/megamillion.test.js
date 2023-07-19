@@ -24,7 +24,7 @@ describe('get megamillion', function() {
       N4: 51,
       N5: 66,
       NS: 15,
-      date: "2023-07-14T00:00:00",
+      date: Date.now(),
       multiplier: 2,
       type: 'megamillions',
       jackpot: {
@@ -92,7 +92,7 @@ describe('get megamillion', function() {
 
     const expectedOne = {
       type: 'megamillions',
-      date: new Date(),
+      date: Date.now(),
       multiplier: 2,
       N1: { number: 10, hit: true },
       N2: { number: 24, hit: true },
@@ -116,7 +116,7 @@ describe('get megamillion', function() {
 
     const expectedTwo = {
       type: 'megamillions',
-      date: new Date(),
+      date: Date.now(),
       multiplier: 2,
       N1: { number: 10, hit: true },
       N2: { number: 24, hit: true },

@@ -65,7 +65,7 @@ describe('lib/lottery/powerball', () => {
       N4: 62,
       N5: 63,
       NS: 21,
-      date: new Date(),
+      date: Date.now(),
       type: 'double-play',
     };
     const playOne = {
@@ -79,7 +79,7 @@ describe('lib/lottery/powerball', () => {
     };
     const expectedCheckOne = {
       type: 'double-play',
-      date: new Date(),
+      date: Date.now(),
       N1: { number: 23, hit: false },
       N2: { number: 35, hit: false },
       N3: { number: 45, hit: false },
@@ -101,7 +101,7 @@ describe('lib/lottery/powerball', () => {
     };
     const expectedCheckTwo = {
       type: 'double-play',
-      date: new Date(),
+      date: Date.now(),
       N1: { number: 41, hit: false },
       N2: { number: 42, hit: true },
       N3: { number: 49, hit: true },
