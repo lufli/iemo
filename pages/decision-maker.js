@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key,  import/no-extraneous-dependencies */
 import React from 'react';
 import Head from 'next/head';
+import { v4 as uuid } from 'uuid';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -14,8 +15,16 @@ import {
 } from 'antd';
 
 export default function DecisionMaker() {
-  const [names, setNames] = React.useState(['', '', '']);
-  const [options, setOptions] = React.useState(['', '', '']);
+  const [names, setNames] = React.useState([
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+  ]);
+  const [options, setOptions] = React.useState([
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+  ]);
   const [isFormDisabled, setIsFormDisabled] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [result, setResult] = React.useState([]);
@@ -34,13 +43,15 @@ export default function DecisionMaker() {
   ];
 
   const onNameChange = (e, index) => {
-    setNames((items) => items.map((item, i) => (
-      i === index ? e.target.value : item
+    setNames((items) => items.map(({ key, value }, i) => (
+      i === index
+        ? { key, value: e.target.value }
+        : { key, value }
     )));
   };
 
   const onAddName = () => {
-    setNames((items) => [...items, '']);
+    setNames((items) => [...items, { key: uuid(), value: '' }]);
   };
 
   const onDeleteName = (e, index) => {
@@ -50,13 +61,21 @@ export default function DecisionMaker() {
   };
 
   const onOptionChange = (e, index) => {
-    setOptions((items) => items.map((item, i) => (
-      i === index ? e.target.value : item
+    setOptions((items) => items.map(({ key, value }, i) => (
+      i === index
+        ? { key, value: e.target.value }
+        : { key, value }
     )));
   };
 
   const onAddOption = () => {
-    setOptions((items) => [...items, '']);
+    setOptions((items) => [...items, { key: uuid(), value: '' }]);
+  };
+
+  const onDeleteOption = (e, index) => {
+    setOptions((items) => items.reduce((acc, cur, i) => (
+      i === index ? acc : [...acc, cur]
+    ), []));
   };
 
   const onModalClose = () => {
@@ -90,11 +109,11 @@ export default function DecisionMaker() {
     shuffle(names).forEach((name) => {
       const len = rest.length;
       if (len === 0) {
-        newResult = [...newResult, { key: new Date() + name + len, name, desision: '' }];
+        newResult = [...newResult, { key: uuid(), name: name.value, desision: '' }];
         return;
       }
       const num = randomNumber(0, len);
-      newResult = [...newResult, { name, decision: rest[num] }];
+      newResult = [...newResult, { key: uuid(), name: name.value, decision: rest[num].value }];
       rest.splice(num, 1);
     });
     setResult(newResult);
@@ -103,8 +122,16 @@ export default function DecisionMaker() {
   };
 
   const onClear = () => {
-    setNames(['', '', '']);
-    setOptions(['', '', '']);
+    setNames([
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+    ]);
+    setOptions([
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+    ]);
     setIsFormDisabled(false);
     setResult([]);
   };
@@ -118,53 +145,52 @@ export default function DecisionMaker() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Divider orientation="left">Decision Maker</Divider>
-      <Modal title="Decision for You!" open={isModalOpen} onOk={onModalClose} onCancel={onModalClose}>
-        <Table columns={columns} dataSource={result} bordered />
+      <Modal data-testid="modal" okButtonProps={{ 'data-testid': 'ok-button' }} title="Decision for You!" open={isModalOpen} onOk={onModalClose} onCancel={onModalClose}>
+        <Table data-testid="table" columns={columns} dataSource={result} rowKey={(record) => record.key} bordered />
       </Modal>
       <Row gutter={12}>
         <Col span={10}>
-          <Form disabled={isFormDisabled} style={{ padding: 24 }}>
+          <Form data-testid="name-form" disabled={isFormDisabled} style={{ padding: 24 }}>
             {
               names.map((name, index) => (
-                <Form.Item key={index}>
-                  <Input className="name-input" data-testid={'name-input-' + Math.random() } style={{ width: '60%' }} value={name} onChange={(e) => onNameChange(e, index)} placeholder="Please input the thing..." />
-
+                <Form.Item key={name.key}>
+                  <Input className="name-input" data-testid="name-input" style={{ width: '60%' }} value={name.value} onChange={(e) => onNameChange(e, index)} placeholder="Please input the thing..." />
                   {
                     isFormDisabled
-                      ? <MinusCircleOutlined className="dynamic-delete-button" />
-                      : <MinusCircleOutlined className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
+                      ? <MinusCircleOutlined data-testid="name-delete-button" className="dynamic-delete-button" />
+                      : <MinusCircleOutlined data-testid="name-delete-button" className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
                   }
                 </Form.Item>
               ))
             }
             <Form.Item>
-              <Button type="dashed" onClick={onAddName} icon={<PlusOutlined />}>Add more</Button>
+              <Button type="dashed" data-testid="add-name-button" onClick={onAddName} icon={<PlusOutlined />}>Add more</Button>
             </Form.Item>
           </Form>
         </Col>
         <Col span={10}>
-          <Form disabled={isFormDisabled} style={{ padding: 24 }}>
+          <Form data-testid="option-form" disabled={isFormDisabled} style={{ padding: 24 }}>
             {
               options.map((option, index) => (
-                <Form.Item key={index}>
-                  <Input className="option-input" data-testid={'option-input-' + Math.random() } style={{ width: '60%' }} value={option} onChange={(e) => onOptionChange(e, index)} placeholder="Please input an option" />
+                <Form.Item key={option.key}>
+                  <Input className="option-input" data-testid="option-input" style={{ width: '60%' }} value={option.value} onChange={(e) => onOptionChange(e, index)} placeholder="Please input an option" />
                   {
                     isFormDisabled
-                      ? <MinusCircleOutlined data-testid="delete-name-icon" className="dynamic-delete-button" />
-                      : <MinusCircleOutlined data-testid="delete-name-icon" className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
+                      ? <MinusCircleOutlined data-testid="option-delete-button" className="dynamic-delete-button" />
+                      : <MinusCircleOutlined data-testid="option-delete-button" className="dynamic-delete-button" onClick={(e) => onDeleteOption(e, index)} />
                   }
                 </Form.Item>
               ))
             }
             <Form.Item>
-              <Button data-testid="add-name-button" type="dashed" onClick={onAddOption} icon={<PlusOutlined />}>Add more</Button>
+              <Button data-testid="add-option-button" type="dashed" onClick={onAddOption} icon={<PlusOutlined />}>Add more</Button>
             </Form.Item>
           </Form>
         </Col>
         <Col span={4}>
-          <Button type="primary" block onClick={onSubmit}>Submit</Button>
+          <Button data-testid="submit-button" type="primary" block onClick={onSubmit}>Submit</Button>
           <br />
-          <Button danger block onClick={onClear}>Clear</Button>
+          <Button data-testid="clear-button" danger block onClick={onClear}>Clear</Button>
           <p>1. Type the thing</p>
           <p>2. Type the options</p>
           <p>3. Submit</p>

@@ -7,6 +7,9 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
+  moduleNameMapper: {
+    // uuid: require.resolve('uuid'),
+  },
   testEnvironment: 'jest-environment-jsdom',
 };
 
