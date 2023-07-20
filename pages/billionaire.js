@@ -1,7 +1,16 @@
 import Head from 'next/head';
+import axios from 'axios';
 import React from 'react';
+import useSwr from 'swr';
+import ResultRender from '@/components/billionaire/ResultRender';
 
 export default function Billionaire() {
+  const { data, mutate } = useSwr('/api/get-lottery-results', axios.get, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+
   return (
     <>
       <Head>
@@ -11,6 +20,10 @@ export default function Billionaire() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Billionaire</h1>
+      <button onClick={mutate} type="button">re-run</button>
+      { data?.data && data.data.map((result) => (
+        <ResultRender {...result} key={result.type} />
+      )) }
     </>
   );
 }

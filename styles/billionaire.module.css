@@ -1,0 +1,37 @@
+.result-container {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.35rem;
+}
+
+.regular-balls {
+  align-items: center;
+  aspect-ratio: 1;
+  border: 1px solid #666;
+  border-radius: 100%;
+  color: #101820;
+  display: flex;
+  flex: 1 0 3rem;
+  font-family: proxima-nova;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  height: 3rem;
+  justify-content: center;
+  max-width: 3rem;
+  padding: 0;
+  position: relative;
+  text-align: center;
+}
+
+.white-balls {
+  background: radial-gradient(circle at 50% 25%,#fff,#bbb);
+  border: 1px solid #d2d2d2;
+  perspective: 600px;
+  perspective-origin: 50% 50%;
+}
+
+.special-ball {
+  background-color: #c8102e;
+  color: #fff;
+}
