@@ -4,8 +4,10 @@ import '@testing-library/jest-dom';
 import '@/matchMedia.mock';
 
 describe('renders navigation', () => {
-  it('renders all links', () => {
+  it('renders correctly', () => {
     render(<Navigation />);
-    expect(screen.getByText(/LOGO/i)).toBeInTheDocument();
+    const logoImage = screen.getByAltText('iemo');
+
+    expect(logoImage).toBeInTheDocument();
   });
 });
