@@ -28,7 +28,7 @@ describe('lib/lottery/powerball', () => {
 
   beforeAll(() => {
     jest.useFakeTimers('modern');
-    jest.setSystemTime(new Date());
+    jest.setSystemTime(Date.now());
     server.listen();
   });
 

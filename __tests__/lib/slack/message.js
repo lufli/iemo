@@ -111,7 +111,7 @@ describe('lib/slack/message', () => {
           mrkdwn_in: ['text'],
           color: level,
           text,
-          author_name: ':male_police_officer: Notification',
+          author_name: ':ghost: Notification',
           title: 'Read more...',
           title_link: link,
           footer: 'iEmo',
