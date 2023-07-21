@@ -1,7 +1,141 @@
-import Head from 'next/head';
+/* eslint-disable react/no-array-index-key,  import/no-extraneous-dependencies */
 import React from 'react';
+import Head from 'next/head';
+import { v4 as uuid } from 'uuid';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Table,
+} from 'antd';
 
 export default function DecisionMaker() {
+  const [names, setNames] = React.useState([
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+  ]);
+  const [options, setOptions] = React.useState([
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+    { key: uuid(), value: '' },
+  ]);
+  const [isFormDisabled, setIsFormDisabled] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [result, setResult] = React.useState([]);
+
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Decision',
+      dataIndex: 'decision',
+      key: 'decision',
+    },
+  ];
+
+  const onNameChange = (e, index) => {
+    setNames((items) => items.map(({ key, value }, i) => (
+      i === index
+        ? { key, value: e.target.value }
+        : { key, value }
+    )));
+  };
+
+  const onAddName = () => {
+    setNames((items) => [...items, { key: uuid(), value: '' }]);
+  };
+
+  const onDeleteName = (e, index) => {
+    setNames((items) => items.reduce((acc, cur, i) => (
+      i === index ? acc : [...acc, cur]
+    ), []));
+  };
+
+  const onOptionChange = (e, index) => {
+    setOptions((items) => items.map(({ key, value }, i) => (
+      i === index
+        ? { key, value: e.target.value }
+        : { key, value }
+    )));
+  };
+
+  const onAddOption = () => {
+    setOptions((items) => [...items, { key: uuid(), value: '' }]);
+  };
+
+  const onDeleteOption = (e, index) => {
+    setOptions((items) => items.reduce((acc, cur, i) => (
+      i === index ? acc : [...acc, cur]
+    ), []));
+  };
+
+  const onModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const randomNumber = (min, max) => (
+    Math.floor(Math.random() * (max - min) + min)
+  );
+
+  const shuffle = (array) => {
+    const arrayCopy = [...array];
+    let currentIndex = arrayCopy.length;
+    let randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      [arrayCopy[currentIndex], arrayCopy[randomIndex]] = [
+        arrayCopy[randomIndex], arrayCopy[currentIndex]];
+    }
+    return arrayCopy;
+  };
+
+  const onSubmit = () => {
+    if (result.length > 0) {
+      setIsModalOpen(true);
+      return;
+    }
+    let newResult = [];
+    const rest = [...options];
+    shuffle(names).forEach((name) => {
+      const len = rest.length;
+      if (len === 0) {
+        newResult = [...newResult, { key: uuid(), name: name.value, desision: '' }];
+        return;
+      }
+      const num = randomNumber(0, len);
+      newResult = [...newResult, { key: uuid(), name: name.value, decision: rest[num].value }];
+      rest.splice(num, 1);
+    });
+    setResult(newResult);
+    setIsFormDisabled(true);
+    setIsModalOpen(true);
+  };
+
+  const onClear = () => {
+    setNames([
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+    ]);
+    setOptions([
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+      { key: uuid(), value: '' },
+    ]);
+    setIsFormDisabled(false);
+    setResult([]);
+  };
+
   return (
     <>
       <Head>
@@ -10,7 +144,58 @@ export default function DecisionMaker() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Decision Maker</h1>
+      <Divider orientation="left">Decision Maker</Divider>
+      <Modal data-testid="modal" okButtonProps={{ 'data-testid': 'ok-button' }} title="Decision for You!" open={isModalOpen} onOk={onModalClose} onCancel={onModalClose}>
+        <Table data-testid="table" columns={columns} dataSource={result} rowKey={(record) => record.key} bordered />
+      </Modal>
+      <Row gutter={12}>
+        <Col span={10}>
+          <Form data-testid="name-form" disabled={isFormDisabled} style={{ padding: 24 }}>
+            {
+              names.map((name, index) => (
+                <Form.Item key={name.key}>
+                  <Input className="name-input" data-testid="name-input" style={{ width: '60%' }} value={name.value} onChange={(e) => onNameChange(e, index)} placeholder="Please input the thing..." />
+                  {
+                    isFormDisabled
+                      ? <MinusCircleOutlined data-testid="name-delete-button" className="dynamic-delete-button" />
+                      : <MinusCircleOutlined data-testid="name-delete-button" className="dynamic-delete-button" onClick={(e) => onDeleteName(e, index)} />
+                  }
+                </Form.Item>
+              ))
+            }
+            <Form.Item>
+              <Button type="dashed" data-testid="add-name-button" onClick={onAddName} icon={<PlusOutlined />}>Add more</Button>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={10}>
+          <Form data-testid="option-form" disabled={isFormDisabled} style={{ padding: 24 }}>
+            {
+              options.map((option, index) => (
+                <Form.Item key={option.key}>
+                  <Input className="option-input" data-testid="option-input" style={{ width: '60%' }} value={option.value} onChange={(e) => onOptionChange(e, index)} placeholder="Please input an option" />
+                  {
+                    isFormDisabled
+                      ? <MinusCircleOutlined data-testid="option-delete-button" className="dynamic-delete-button" />
+                      : <MinusCircleOutlined data-testid="option-delete-button" className="dynamic-delete-button" onClick={(e) => onDeleteOption(e, index)} />
+                  }
+                </Form.Item>
+              ))
+            }
+            <Form.Item>
+              <Button data-testid="add-option-button" type="dashed" onClick={onAddOption} icon={<PlusOutlined />}>Add more</Button>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={4}>
+          <Button data-testid="submit-button" type="primary" block onClick={onSubmit}>Submit</Button>
+          <br />
+          <Button data-testid="clear-button" danger block onClick={onClear}>Clear</Button>
+          <p>1. Type the thing</p>
+          <p>2. Type the options</p>
+          <p>3. Submit</p>
+        </Col>
+      </Row>
     </>
   );
 }
