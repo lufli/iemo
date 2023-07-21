@@ -1,1 +1,37 @@
 /* TODO: Since we are using UI lib, we could remove this file if we are not using it in the future. */
+.dynamic-delete-button {
+  position: relative;
+  top: 4px;
+  margin: 0 8px;
+  color: #999;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dynamic-delete-button:hover {
+  color: red;
+}
+.dynamic-delete-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#logo {
+  float: left;
+  display: inline-block;
+  height:48px;
+  width: 120px;
+}
+
+#nav {
+  padding-left: 8px;
+  height: 48px;
+  background-color: #43cc68;
+  width: 100%;
+}
+

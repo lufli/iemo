@@ -4,7 +4,7 @@ import ResultRender from '@/components/billionaire/ResultRender';
 
 describe('ResultRender', () => {
   it('should render correctly', () => {
-    const winningNumber =  {
+    const winningNumber = {
       N1: 1,
       N2: 2,
       N3: 3,
@@ -15,8 +15,8 @@ describe('ResultRender', () => {
       fetchFail: false,
     };
 
-    render(<ResultRender { ...winningNumber } />)
+    render(<ResultRender {...winningNumber} />);
 
     expect(screen.getByText(/megamillions result is/i)).toBeInTheDocument();
-  })
-})
+  });
+});
