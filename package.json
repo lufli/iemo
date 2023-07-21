@@ -12,6 +12,7 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
+    "@slack/web-api": "^6.8.1",
     "@vercel/analytics": "^1.0.1",
     "antd": "^5.7.0",
     "axios": "^1.4.0",

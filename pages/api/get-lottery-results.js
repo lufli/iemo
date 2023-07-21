@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getWinningNumbers as getMegamillion } from '@/lib/lottery/megamillion';
+import { getWinningNumbers as getMegamillion } from '@/lib/lottery/mega';
 import { getWinningNumbers as getDoublePlay } from '@/lib/lottery/double-play';
 import { getWinningNumbers as getPowerball } from '@/lib/lottery/powerball';
 
