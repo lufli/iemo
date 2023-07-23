@@ -5,6 +5,11 @@ import { List } from 'antd';
 
 const myApps = [
   {
+    title: 'Playground',
+    description: 'Play with new things.',
+    link: '/playground',
+  },
+  {
     title: 'One Submit! No Regret!',
     description: 'Having trouble making decisions? Don\'t worry! We will help you!',
     link: '/decision-maker',
