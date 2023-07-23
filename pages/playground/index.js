@@ -38,7 +38,7 @@ function Playground() {
     const expirationDate = new Date('9999-12-31');
     const expires = `; expires=${expirationDate.toUTCString()}`;
 
-    const response = await fetch('http://localhost:3000/api/user', {
+    const response = await fetch('/api/user', {
       method: 'POST',
       headers: {
         Cookies: document.cookie,
