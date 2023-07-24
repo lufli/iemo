@@ -52,18 +52,21 @@ describe('get megamillion', () => {
       N4: 51,
       N5: 66,
       NS: 15,
-      date: '2023-07-14T00:00:00',
+      date: Date.now(),
       multiplier: 2,
       type: 'mega',
     };
 
     const playOne = {
+      type: 'mega',
+      date: Date.now(),
       N1: 10,
       N2: 24,
       N3: 48,
       N4: 51,
       N5: 66,
       NS: 1,
+      power: true,
     };
 
     const expectedOne = {
@@ -76,18 +79,22 @@ describe('get megamillion', () => {
       N4: { number: 51, hit: true },
       N5: { number: 66, hit: true },
       NS: { number: 1, hit: false },
+      power: true,
       prize: 2000000,
     };
 
     expect(checkNumbersForPrize(expectedWinningNumbers, playOne)).toEqual(expectedOne);
 
     const playTwo = {
+      type: 'mega',
+      date: Date.now(),
       N1: 10,
       N2: 24,
       N3: 48,
       N4: 51,
       N5: 66,
       NS: 15,
+      power: false,
     };
 
     const expectedTwo = {
@@ -100,6 +107,7 @@ describe('get megamillion', () => {
       N4: { number: 51, hit: true },
       N5: { number: 66, hit: true },
       NS: { number: 15, hit: true },
+      power: false,
       prize: 'Grand Prize',
     };
 
