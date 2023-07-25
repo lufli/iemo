@@ -82,6 +82,7 @@ describe('lib/lottery/powerball', () => {
       N4: 66,
       N5: 67,
       NS: 20,
+      power: true,
     };
     const expectedCheckOne = {
       type: 'powerball',
@@ -92,6 +93,7 @@ describe('lib/lottery/powerball', () => {
       N4: { number: 66, hit: true },
       N5: { number: 67, hit: true },
       NS: { number: 20, hit: true },
+      power: true,
       multiplier: 3,
       prize: 'Grand Prize',
     };
@@ -104,7 +106,8 @@ describe('lib/lottery/powerball', () => {
       N3: 47,
       N4: 52,
       N5: 66,
-      NS: 16,
+      NS: 20,
+      power: false,
     };
     const expectedCheckTwo = {
       type: 'powerball',
@@ -114,9 +117,10 @@ describe('lib/lottery/powerball', () => {
       N3: { number: 47, hit: false },
       N4: { number: 52, hit: false },
       N5: { number: 66, hit: true },
-      NS: { number: 16, hit: false },
+      NS: { number: 20, hit: true },
+      power: false,
       multiplier: 3,
-      prize: 0,
+      prize: 4,
     };
     expect(checkNumbersForPrize(winningNumbers, playTwo)).toEqual(expectedCheckTwo);
   });
