@@ -19,6 +19,7 @@
         "import/extensions": "off",
         "import/no-unresolved": "off",
         "import/no-extraneous-dependencies": "off",
+        "no-underscore-dangle": "off",
         "no-plusplus": [2, { "allowForLoopAfterthoughts": true }]
     },
     "settings": {
