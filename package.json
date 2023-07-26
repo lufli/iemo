@@ -14,6 +14,7 @@
   "dependencies": {
     "@slack/web-api": "^6.8.1",
     "@vercel/analytics": "^1.0.1",
+    "@vercel/kv": "^0.2.2",
     "antd": "^5.7.0",
     "axios": "^1.4.0",
     "dom-parser": "^0.1.6",
