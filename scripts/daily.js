@@ -14,11 +14,6 @@ async function main() {
   // Fri ->
   // Sat -> Mega
   // Sun -> Powerball, Double Play
-  const hour = parseInt(new Date().toLocaleString('en-US', {
-    hour12: false,
-    timeZone: 'America/New_York',
-  }).split(',')[1].split(':')[0].trim(), 10);
-
   const day = new Date().toLocaleDateString('en-US', {
     weekday: 'short',
     timeZone: 'America/New_York',
@@ -28,59 +23,57 @@ async function main() {
   let doublePlayWinningNumbers = null;
   let megaWinningNumbers = null;
 
-  if (hour === 0) {
-    try {
-      if (day === 'Tue') {
-        powerballWinningNumbers = await getPowerballWinningNumbers();
-        doublePlayWinningNumbers = await getDoublePlayWinningNumbers();
-      } else if (day === 'Wed') {
-        megaWinningNumbers = await getMegaWinningNumbers();
-      } else if (day === 'Thu') {
-        powerballWinningNumbers = await getPowerballWinningNumbers();
-        doublePlayWinningNumbers = await getDoublePlayWinningNumbers();
-      } else if (day === 'Sat') {
-        megaWinningNumbers = await getMegaWinningNumbers();
-      } else if (day === 'Sun') {
-        powerballWinningNumbers = await getPowerballWinningNumbers();
-        doublePlayWinningNumbers = await getDoublePlayWinningNumbers();
-      }
+  try {
+    if (day === 'Tue') {
+      powerballWinningNumbers = await getPowerballWinningNumbers();
+      doublePlayWinningNumbers = await getDoublePlayWinningNumbers();
+    } else if (day === 'Wed') {
+      megaWinningNumbers = await getMegaWinningNumbers();
+    } else if (day === 'Thu') {
+      powerballWinningNumbers = await getPowerballWinningNumbers();
+      doublePlayWinningNumbers = await getDoublePlayWinningNumbers();
+    } else if (day === 'Sat') {
+      megaWinningNumbers = await getMegaWinningNumbers();
+    } else if (day === 'Sun') {
+      powerballWinningNumbers = await getPowerballWinningNumbers();
+      doublePlayWinningNumbers = await getDoublePlayWinningNumbers();
+    }
 
-      const updates = [];
+    const updates = [];
 
-      if (powerballWinningNumbers) {
-        await kv.set('powerball', powerballWinningNumbers);
-        updates.push('Powerball');
-      }
-      if (doublePlayWinningNumbers) {
-        await kv.set('double-play', doublePlayWinningNumbers);
-        updates.push('Double Play');
-      }
-      if (megaWinningNumbers) {
-        await kv.set('mega', megaWinningNumbers);
-        updates.push('Mega Millions');
-      }
-
+    if (powerballWinningNumbers) {
+      await kv.set('powerball', powerballWinningNumbers);
+      updates.push('Powerball');
+    }
+    if (doublePlayWinningNumbers) {
+      await kv.set('double-play', doublePlayWinningNumbers);
+      updates.push('Double Play');
+    }
+    if (megaWinningNumbers) {
+      await kv.set('mega', megaWinningNumbers);
+      updates.push('Mega Millions');
+    }
+    if (updates.length === 0) {
+      sendMessageToChannel({
+        channel: '#billionaire-monitor',
+        text: 'Cron job run, but did nothing.',
+      });
+    } else {
       sendMessageToChannel({
         channel: '#billionaire-monitor',
         level: 'good',
         text: `${updates.join(', ')} updated!`,
       });
-    } catch (error) {
-      sendMessageToChannel({
-        channel: '#billionaire-monitor',
-        level: 'danger',
-        text: error.message,
-      });
     }
-  }
-
-  if (hour !== 0) {
-    // Nothing to check now.
+  } catch (error) {
     sendMessageToChannel({
       channel: '#billionaire-monitor',
-      text: 'Cron job run, but did nothing.',
+      level: 'danger',
+      text: error.message,
     });
   }
+
+    // Nothing to check now.
 }
 
 module.exports = { main };
