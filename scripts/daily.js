@@ -72,8 +72,7 @@ async function main() {
       text: error.message,
     });
   }
-
-    // Nothing to check now.
+  // Nothing to check now.
 }
 
 module.exports = { main };
