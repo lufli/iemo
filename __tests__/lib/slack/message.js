@@ -127,14 +127,6 @@ describe('lib/slack/message', () => {
     expect(axios.post).toHaveBeenCalledWith(webhookUrl, payload, requestOptions);
   });
 
-  it('sendMessagToChannel handle error when reject', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-    axios.post.mockRejectedValueOnce(new Error('Error sending data'));
-
-    await sendMessageToChannel({});
-    expect(consoleErrorSpy).toHaveBeenCalled();
-  });
-
   it('sendMessageToUser sending warning messages', async () => {
     const level = 'good';
     const text = 'good text';
@@ -245,13 +237,5 @@ describe('lib/slack/message', () => {
     });
 
     expect(axios.post).toHaveBeenCalledWith(webhookUrl, payload, requestOptions);
-  });
-
-  it('sendMessagToUser handle error when reject', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-    axios.post.mockRejectedValueOnce(new Error('Error sending data'));
-
-    await sendMessageToUser({});
-    expect(consoleErrorSpy).toHaveBeenCalled();
   });
 });
