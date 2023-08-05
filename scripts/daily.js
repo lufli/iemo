@@ -4,8 +4,6 @@ const powerball = require('../lib/lottery/powerball');
 const doublePlay = require('../lib/lottery/double-play');
 const mega = require('../lib/lottery/mega');
 
-const ERROR_ON_MESSAGE = { message: 'Error on sending message' };
-
 async function main() {
   // Script runs every hour.
   // For everyday 0:00 (EST), might need to check winning number:
@@ -44,6 +42,7 @@ async function main() {
 
       const text = `
 Weekly Report
+
 Powerball Prize: ${powerballPrize}
 Double Play Prize: ${doublePlayPrize}
 Mega Millions Prize: ${megaPrize}
@@ -57,7 +56,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
       });
 
       if (response !== 'ok') {
-        return ERROR_ON_MESSAGE;
+        return response;
       }
 
       updates.push('Weekly Report');
@@ -125,37 +124,44 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
         channel: '#billionaire-monitor',
         level: 'danger',
         text: errors.join('\n'),
+        link: 'https://www.iemo.io',
       });
+
       if (response !== 'ok') {
-        return ERROR_ON_MESSAGE;
+        return response;
       }
     } else if (updates.length === 0) {
       const response = await sendMessageToChannel({
         channel: '#billionaire-monitor',
         text: 'Cron job run, but did nothing.',
+        link: 'https://www.iemo.io',
       });
 
       if (response !== 'ok') {
-        return ERROR_ON_MESSAGE;
+        return response;
       }
     } else {
       const response = await sendMessageToChannel({
         channel: '#billionaire-monitor',
         level: 'good',
         text: `${updates.join(', ')} updated!`,
+        link: 'https://www.iemo.io',
       });
+
       if (response !== 'ok') {
-        return ERROR_ON_MESSAGE;
+        return response;
       }
     }
   } catch (error) {
-    const response = sendMessageToChannel({
+    const response = await sendMessageToChannel({
       channel: '#billionaire-monitor',
       level: 'danger',
       text: error.message,
+      link: 'https://www.iemo.io',
     });
+
     if (response !== 'ok') {
-      return ERROR_ON_MESSAGE;
+      return response;
     }
   }
   return { message: 'Ok' };
