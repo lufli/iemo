@@ -82,7 +82,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
       // incr powerball prize this week
       const powerballPlays = await kv.get('powerball_plays');
       const prize = powerballPlays.reduce((sum, play) => (
-        sum + powerball.calculatePrize(powerballWinningNumbers, play)
+        sum + powerball.checkNumbersForPrize(powerballWinningNumbers, play).prize
       ), 0);
       await kv.incrby('powerball_prize', prize);
     }
@@ -98,7 +98,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
       // incr double play prize this week
       const doublePlayPlays = await kv.get('powerball_plays');
       const prize = doublePlayPlays.reduce((sum, play) => (
-        sum + powerball.calculatePrize(doublePlayWinningNumbers, play)
+        sum + powerball.checkNumbersForPrize(doublePlayWinningNumbers, play).prize
       ), 0);
       await kv.incrby('double_play_prize', prize);
     }
@@ -114,7 +114,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
       // incr mega millions prize this week
       const megaPlays = await kv.get('mega_plays');
       const prize = megaPlays.reduce((sum, play) => (
-        sum + powerball.calculatePrize(megaWinningNumbers, play)
+        sum + powerball.checkNumbersForPrize(megaWinningNumbers, play).prize
       ), 0);
       await kv.incrby('mega_prize', prize);
     }
