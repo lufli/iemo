@@ -14,6 +14,11 @@ const myApps = [
     description: 'Are you a billionaire?',
     link: '/billionaire',
   },
+  {
+    title: 'Lucky Day',
+    description: '[WIP] Lucky day?',
+    link: '/lucky',
+  },
 ];
 
 export default function Home() {
