@@ -24,6 +24,7 @@ async function main() {
   let megaWinningNumbers = null;
   const updates = [];
   const errors = [];
+  let total = 0;
 
   try {
     if (day === 'Tue') {
@@ -85,6 +86,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
         sum + powerball.checkNumbersForPrize(powerballWinningNumbers, play).prize
       ), 0);
       await kv.incrby('powerball_prize', prize);
+      total += prize;
     }
 
     if (doublePlayWinningNumbers) {
@@ -101,6 +103,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
         sum + powerball.checkNumbersForPrize(doublePlayWinningNumbers, play).prize
       ), 0);
       await kv.incrby('double_play_prize', prize);
+      total += prize;
     }
 
     if (megaWinningNumbers) {
@@ -117,6 +120,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
         sum + powerball.checkNumbersForPrize(megaWinningNumbers, play).prize
       ), 0);
       await kv.incrby('mega_prize', prize);
+      total += prize;
     }
 
     if (errors.length !== 0) {
@@ -124,7 +128,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
         channel: '#billionaire-monitor',
         level: 'danger',
         text: errors.join('\n'),
-        link: 'https://www.iemo.io',
+        link: 'https://www.iemo.io/lucky',
       });
 
       if (response !== 'ok') {
@@ -134,7 +138,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
       const response = await sendMessageToChannel({
         channel: '#billionaire-monitor',
         text: 'Cron job run, but did nothing.',
-        link: 'https://www.iemo.io',
+        link: 'https://www.iemo.io/lucky',
       });
 
       if (response !== 'ok') {
@@ -144,8 +148,8 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
       const response = await sendMessageToChannel({
         channel: '#billionaire-monitor',
         level: 'good',
-        text: `${updates.join(', ')} updated!`,
-        link: 'https://www.iemo.io',
+        text: `${updates.join(', ')} updated! Win $${total}!`,
+        link: 'https://www.iemo.io/lucky',
       });
 
       if (response !== 'ok') {
@@ -157,7 +161,7 @@ Total: ${powerballPrize + doublePlayPrize + megaPrize}`;
       channel: '#billionaire-monitor',
       level: 'danger',
       text: error.message,
-      link: 'https://www.iemo.io',
+      link: 'https://www.iemo.io/lucky',
     });
 
     if (response !== 'ok') {

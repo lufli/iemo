@@ -4,7 +4,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main style={{ margin: 'auto', width: '80%' }}>{children}</main>
     </>
   );
 }

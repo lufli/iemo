@@ -22,6 +22,7 @@
 }
 
 #logo {
+  margin-left: 8px;
   float: left;
   display: inline-block;
   height:48px;
@@ -29,7 +30,7 @@
 }
 
 #nav {
-  padding-left: 8px;
+  margin: 0;
   height: 48px;
   background-color: #43cc68;
   width: 100%;
